@@ -68,7 +68,11 @@ spicetify apply
 
 ```powershell
 cd "$(spicetify path userdata)\Themes"
-git clone https://github.com/epxii/glass-theme glass
+Invoke-WebRequest https://github.com/epxii/glass-theme/archive/refs/heads/main.zip -OutFile glass.zip
+Expand-Archive glass.zip -DestinationPath . -Force
+Remove-Item glass -Recurse -Force -ErrorAction SilentlyContinue
+Rename-Item glass-theme-main glass
+Remove-Item glass.zip
 spicetify config current_theme glass color_scheme Glass
 spicetify config inject_css 1 replace_colors 1 overwrite_assets 1 inject_theme_js 1
 spicetify apply
@@ -91,6 +95,8 @@ cd "$(spicetify path userdata)/Themes/glass"
 git pull
 spicetify apply
 ```
+
+On Windows, or if you don't have Git installed, just run the Windows install commands above again. They replace the old version with the latest one.
 
 ## Removing
 
