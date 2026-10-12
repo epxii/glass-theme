@@ -644,3 +644,8 @@ body.glass-np-open .main-nowPlayingWidget-nowPlaying > div:first-child:has(img) 
   color: #fff;
   opacity: .6;
 }
+
+/* Hide Spotify's big banner image on playlists */
+.Root__main-view [data-testid="background-image"] {
+  display: none !important;
+}

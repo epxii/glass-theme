@@ -526,14 +526,14 @@
     if (!m) return;
     const main = document.querySelector(".Root__main-view");
     if (!main || main.querySelector(".glass-hero-cover")) return;
-    if ((heroChecks[path] || 0) > 3 && !main.querySelector(".glass-hero-hide, .glass-hero-nobg")) return;
+    if ((heroChecks[path] || 0) > 3 && !main.querySelector(".glass-hero-hide, .glass-hero-nobg, [data-testid='background-image']")) return;
     heroChecks[path] = (heroChecks[path] || 0) + 1;
 
     heroBusy = true;
     try {
       const mainTop = main.getBoundingClientRect().top;
       const mw = main.clientWidth;
-      let found = !!main.querySelector(".glass-hero-hide, .glass-hero-nobg");
+      let found = !!main.querySelector(".glass-hero-hide, .glass-hero-nobg, [data-testid='background-image']");
       main.querySelectorAll("img, video, div").forEach(el => {
         if (el.classList.contains("glass-hero-hide") || el.classList.contains("glass-hero-nobg")) return;
         if (el.offsetWidth < mw * 0.7 || el.offsetHeight < 200) return;
