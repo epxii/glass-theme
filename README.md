@@ -26,6 +26,20 @@ Glass is built to look rich without slowing Spotify down, so it runs well even o
 - **Lyrics are fetched once per song** and shared between the sidebar and the full-screen view.
 - **No audio visualizers** or other constant animations beyond the background.
 
+## Privacy and safety
+
+Glass is just a Spicetify theme: three plain text files (`color.ini`, `user.css`, and `theme.js`) that you can open and read before installing. Nothing is compiled, minified, or hidden, and there's no installer.
+
+**What the script connects to:**
+
+- **Spotify's own servers** (`spclient.wg.spotify.com` and `api.spotify.com`) to fetch lyrics and playlist covers, using the login the Spotify app already has. That login is only ever sent to Spotify.
+- **Spotify's image server** (`i.scdn.co`) to load album art.
+- **[LRCLIB](https://lrclib.net)**, a free and open lyrics database, only when Spotify doesn't have lyrics for a song. It receives the song title and artist name, nothing else.
+
+**What it doesn't do:** no analytics or tracking, no data saved or sent anywhere else, no ads, no accounts, and no outside scripts loaded.
+
+Glass runs on [Spicetify](https://spicetify.app), an open-source tool that modifies the Spotify desktop app. To undo everything at any time, run `spicetify restore`.
+
 ## Install
 
 You'll need [Spicetify](https://spicetify.app) installed first.
