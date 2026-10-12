@@ -330,7 +330,19 @@ body, body * {
 }
 .main-nowPlayingWidget-nowPlaying [data-testid="add-button"],
 .main-nowPlayingWidget-nowPlaying .main-addButton-button,
-.main-nowPlayingBar-right button:not([data-testid="volume-bar-toggle-mute-button"]) {
+.main-nowPlayingBar-right [data-testid="lyrics-button"],
+.main-nowPlayingBar-right [data-testid="control-button-queue"],
+.main-nowPlayingBar-right [data-testid="control-button-npv"],
+.main-nowPlayingBar-right [data-testid="pip-toggle-button"],
+.main-nowPlayingBar-right [data-testid="fullscreen-mode-button"],
+.main-nowPlayingBar-right [data-testid*="device-picker"],
+.main-nowPlayingBar-right button[aria-label="Lyrics"],
+.main-nowPlayingBar-right button[aria-label="Queue"],
+.main-nowPlayingBar-right button[aria-label="Now playing view"],
+.main-nowPlayingBar-right button[aria-label="Connect to a device"],
+.main-nowPlayingBar-right button[aria-label="Open Miniplayer"],
+.main-nowPlayingBar-right button[aria-label="Enter Full screen"],
+.main-nowPlayingBar-right button[aria-label="Full screen"] {
   display: none !important;
 }
 
