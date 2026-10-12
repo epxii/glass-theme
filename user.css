@@ -661,3 +661,11 @@ body.glass-np-open .main-nowPlayingWidget-nowPlaying > div:first-child:has(img) 
 .Root__main-view [data-testid="background-image"] {
   display: none !important;
 }
+
+/* Windows and Linux: keep the now playing buttons clear of the window controls */
+.spotify__os--is-windows .gnp-close,
+.spotify__os--is-windows .gnp-mode,
+.spotify__os--is-linux .gnp-close,
+.spotify__os--is-linux .gnp-mode {
+  top: 56px;
+}
