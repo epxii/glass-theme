@@ -1,0 +1,646 @@
+/* ==========================================================================
+   Glass: a frosted liquid glass theme for Spotify (Spicetify)
+   Works together with theme.js, which draws the background, the now
+   playing screen, lyrics, Cover Flow, and tags elements with glass-* classes.
+   ========================================================================== */
+
+/* ---------- 1. Variables ---------- */
+:root {
+  --glass-font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+
+  /* Fine grain texture that makes the glass read as frosted */
+  --glass-noise: none; /* filled in by theme.js with a tiny grain image */
+
+  /* Milky haze, brighter at the top */
+  --glass-haze: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+
+  /* Light-catching edge for liquid glass borders */
+  --lg-edge: linear-gradient(140deg,
+    rgba(255,255,255,.5) 0%,
+    rgba(255,255,255,.12) 28%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,.08) 72%,
+    rgba(255,255,255,.3) 100%);
+
+  --lg-shadow:
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -1px 0 rgba(255,255,255,.04),
+    0 10px 30px rgba(0,0,0,.35);
+
+  --frost-panel: var(--glass-noise), var(--glass-haze), rgba(18, 18, 22, .32);
+  --frost-dark: var(--glass-noise), rgba(22, 22, 26, .82);
+}
+
+/* ---------- 2. Fonts: bold titles, light subtitles ---------- */
+html {
+  font-size: 85% !important;
+}
+:root, body, .encore-dark-theme {
+  --font-family: var(--glass-font);
+  --encore-title-font-stack: var(--glass-font);
+  --encore-body-font-stack: var(--glass-font);
+  --encore-variable-font-stack: var(--glass-font);
+}
+body, body * {
+  font-family: var(--glass-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+.encore-text-body-small, .encore-text-body-small *,
+.encore-text-marginal, .encore-text-marginal *,
+[data-encore-id="listRowSubtitle"], [data-encore-id="listRowSubtitle"] *,
+.main-yourLibraryX-listRowSubtitle, .main-yourLibraryX-listRowSubtitle *,
+.main-trackInfo-artists, .main-trackInfo-artists *,
+.main-trackList-rowSubTitle, .main-trackList-rowSubTitle *,
+.main-cardSubHeader-root, .main-cardSubHeader-root * {
+  font-family: var(--glass-font) !important;
+  font-weight: 300 !important;
+}
+
+/* ---------- 3. Background (album art canvas drawn by theme.js) ---------- */
+.Root__top-container {
+  position: relative;
+  isolation: isolate;
+  background: #0e0e10 !important;
+}
+#glass-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ---------- 4. Base colors: make Spotify's backgrounds see-through ---------- */
+.encore-dark-theme,
+.encore-dark-theme .encore-base-set,
+.Root__main-view [style*="--background-base"] {
+  --background-base: transparent !important;
+  --background-highlight: rgba(255, 255, 255, 0.06) !important;
+  --background-press: rgba(255, 255, 255, 0.04) !important;
+  --background-elevated-base: rgba(255, 255, 255, 0.05) !important;
+  --background-elevated-highlight: rgba(255, 255, 255, 0.08) !important;
+}
+.encore-dark-theme,
+.encore-dark-theme .encore-base-set {
+  --text-base: #fff;
+  --text-subdued: #fff;
+}
+
+/* ---------- 5. Main panels ---------- */
+.Root__nav-bar,
+.Root__main-view,
+.Root__right-sidebar,
+.Root__now-playing-bar {
+  position: relative;
+  background: var(--frost-panel) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--lg-shadow) !important;
+}
+.Root__globalNav {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.spotify__os--is-macos .Root__globalNav button[aria-label="Go back"] {
+  margin-left: 72px !important;
+}
+
+/* ---------- 6. Liquid glass edges (shared) ---------- */
+.Root__nav-bar::after,
+.Root__main-view::after,
+.Root__right-sidebar::after,
+.Root__now-playing-bar::after,
+.glass-card::after,
+.glass-lyrics-card::after,
+.glass-popover::after,
+.tippy-box::after,
+#context-menu::after,
+.main-contextMenu-menu::after,
+[data-encore-id="popover"]::after,
+[role="dialog"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--lg-edge);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---------- 7. Menus, pop-ups, and the search dropdown ---------- */
+.tippy-box,
+#context-menu,
+.main-contextMenu-menu,
+[data-encore-id="popover"],
+[role="dialog"] {
+  position: relative;
+}
+.tippy-box,
+#context-menu,
+.main-contextMenu-menu,
+[data-encore-id="popover"],
+[role="dialog"],
+.glass-popover {
+  background: var(--glass-noise), var(--glass-haze), rgba(28, 28, 32, .62) !important;
+  backdrop-filter: blur(28px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--lg-shadow) !important;
+}
+
+/* ---------- 8. Removing Spotify's color bands and headers ---------- */
+.main-view-container__scroll-node,
+.main-home-homeHeader,
+.main-actionBarBackground-background,
+.main-entityHeader-backgroundColor {
+  background: transparent !important;
+  background-image: none !important;
+}
+.main-view-container div[style*="background-color"],
+[data-testid="overscroll-background"] {
+  background-color: transparent !important;
+}
+.Root__main-view [style*="--background-base"]::before,
+.Root__main-view [style*="--background-base"]::after {
+  display: none !important;
+}
+
+/* Bars that stick while scrolling get a frosted backing */
+.main-topBar-background,
+.main-trackList-trackListHeaderStuck,
+.glass-sticky {
+  background: var(--frost-dark) !important;
+}
+.main-trackList-trackListHeaderStuck,
+.glass-sticky {
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .08) !important;
+}
+
+/* Spotify-made playlists: big image header becomes a square cover */
+.glass-hero-hide {
+  display: none !important;
+}
+.glass-hero-nobg {
+  background-image: none !important;
+}
+.glass-hero-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  gap: 24px !important;
+}
+.glass-hero-cover {
+  flex: none;
+  width: clamp(128px, 14vw, 232px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+}
+
+/* ---------- 9. Cards, tiles, and pill buttons ---------- */
+.main-card-card {
+  background: rgba(255,255,255,.04) !important;
+  box-shadow:
+    inset 0 0 0 .5px rgba(255,255,255,.08),
+    inset 0 1px 0 rgba(255,255,255,.10) !important;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.main-card-card:hover {
+  background: rgba(255,255,255,.08) !important;
+  box-shadow:
+    inset 0 0 0 .5px rgba(255,255,255,.16),
+    inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+.glass-tile,
+.glass-pill {
+  background-color: rgba(255, 255, 255, .08) !important;
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .12),
+    inset 0 1px 0 rgba(255, 255, 255, .18),
+    0 6px 18px rgba(0, 0, 0, .22) !important;
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+.glass-tile {
+  overflow: hidden;
+}
+.glass-tile:hover,
+.glass-pill:hover {
+  background-color: rgba(255, 255, 255, .13) !important;
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .26),
+    0 8px 22px rgba(0, 0, 0, .28) !important;
+}
+.glass-pill[aria-checked="true"],
+.glass-pill[aria-selected="true"],
+.glass-pill[aria-pressed="true"] {
+  background-color: rgba(255, 255, 255, .88) !important;
+}
+.glass-pill[aria-checked="true"], .glass-pill[aria-checked="true"] *,
+.glass-pill[aria-selected="true"], .glass-pill[aria-selected="true"] *,
+.glass-pill[aria-pressed="true"], .glass-pill[aria-pressed="true"] * {
+  color: #111 !important;
+}
+
+/* ---------- 10. Right sidebar ---------- */
+.glass-card {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, .07) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--lg-shadow) !important;
+}
+.glass-inner,
+.glass-fade,
+.glass-clear {
+  background-color: transparent !important;
+}
+.glass-fade,
+.glass-clear {
+  background-image: none !important;
+}
+
+/* Canvas video and its shading fade out instead of ending in a hard line */
+.main-nowPlayingView-canvasVisualEnhancement,
+.Root__right-sidebar video {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%) !important;
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%) !important;
+}
+.main-nowPlayingView-contextItemInfo::before {
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+}
+
+/* Lyrics card with 3 synced lines */
+.glass-lyrics-card {
+  position: relative;
+  background: var(--glass-noise), var(--glass-haze), rgba(30, 30, 36, .55) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--lg-shadow) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+.glass-lyrics-card,
+.glass-lyrics-card * {
+  color: #fff !important;
+}
+.glass-side-lyrics {
+  padding: 8px 0 4px;
+}
+.glass-side-lyrics p {
+  margin: 0 0 10px;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  opacity: .35;
+  transition: opacity .35s ease;
+}
+.glass-side-lyrics p.on,
+.glass-side-lyrics.plain p {
+  opacity: 1;
+}
+.glass-side-lyrics.swap p {
+  animation: glass-lyric-in .35s ease;
+}
+@keyframes glass-lyric-in {
+  from { transform: translateY(8px); opacity: 0; }
+}
+
+/* ---------- 11. Player bar ---------- */
+.Root__now-playing-bar {
+  margin: 0 8px 8px;
+  overflow: hidden;
+  border: none !important;
+  transition: background .4s ease, box-shadow .4s ease;
+}
+.Root__now-playing-bar::after {
+  transition: opacity .4s ease;
+}
+.main-nowPlayingBar-nowPlayingBar {
+  background: transparent !important;
+  border: none !important;
+}
+.main-nowPlayingWidget-nowPlaying [data-testid="add-button"],
+.main-nowPlayingWidget-nowPlaying .main-addButton-button,
+.main-nowPlayingBar-right button:not([data-testid="volume-bar-toggle-mute-button"]) {
+  display: none !important;
+}
+
+/* Play button: plain icon, no circle */
+[data-testid="control-button-playpause"],
+[data-testid="control-button-playpause"] * {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+[data-testid="control-button-playpause"] {
+  color: #fff !important;
+  transform: none !important;
+}
+[data-testid="control-button-playpause"]::before,
+[data-testid="control-button-playpause"]::after {
+  display: none !important;
+}
+[data-testid="control-button-playpause"] svg,
+[data-testid="control-button-playpause"] path {
+  fill: #fff !important;
+  color: #fff !important;
+}
+[data-testid="control-button-playpause"] svg {
+  width: 20px;
+  height: 20px;
+}
+.player-controls__buttons {
+  gap: 22px;
+}
+
+/* Hairline progress bar, timestamps on hover */
+.progress-bar {
+  --progress-bar-height: 2px;
+  --progress-bar-radius: 0px;
+  --fg-color: #fff;
+  --bg-color: rgba(255, 255, 255, 0.15);
+  --is-active-fg-color: #fff;
+}
+.x-progressBar-fillColor {
+  background-color: #fff !important;
+}
+.progress-bar__slider {
+  display: none !important;
+}
+[data-testid="playback-position"],
+[data-testid="playback-duration"] {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.playback-bar:hover [data-testid="playback-position"],
+.playback-bar:hover [data-testid="playback-duration"] {
+  opacity: 0.7;
+}
+
+/* Now playing button added by theme.js */
+.glass-btns {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-right: 16px;
+}
+.glass-btn {
+  display: inline-flex;
+  color: #fff;
+  opacity: .7;
+  cursor: pointer;
+  transition: opacity .2s ease;
+}
+.glass-btn:hover {
+  opacity: 1;
+}
+
+/* While the now playing screen is open, the bar floats over it */
+body.glass-np-open .Root__now-playing-bar {
+  z-index: 10 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.glass-np-open .Root__now-playing-bar::after {
+  opacity: 0;
+}
+body.glass-np-open .main-nowPlayingWidget-coverArt,
+body.glass-np-open .main-coverSlotCollapsed-container,
+body.glass-np-open .main-nowPlayingWidget-nowPlaying [data-testid="CoverSlotCollapsed__container"],
+body.glass-np-open .main-nowPlayingWidget-nowPlaying > div:first-child:has(img) {
+  display: none !important;
+}
+
+/* ---------- 12. Now playing screen ---------- */
+#glass-np {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+  background: #0e0e10;
+  overflow: hidden;
+}
+#glass-np.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+#glass-np::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, transparent 65%, rgba(0, 0, 0, .45));
+  pointer-events: none;
+}
+.gnp-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.gnp-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 3;
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: .6;
+  cursor: pointer;
+}
+.gnp-close:hover {
+  opacity: 1;
+}
+.gnp-mode {
+  position: absolute;
+  top: 18px;
+  right: 68px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  font-size: .85rem;
+  cursor: pointer;
+  background: var(--glass-noise), rgba(255, 255, 255, .1);
+  box-shadow:
+    inset 0 0 0 .5px rgba(255, 255, 255, .16),
+    inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+.gnp-mode:hover {
+  background: var(--glass-noise), rgba(255, 255, 255, .16);
+}
+
+/* Lyrics view */
+.gnp-wrap {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  gap: 6vw;
+  align-items: center;
+  padding: 6vh 7vw 140px;
+}
+#glass-np.no-lyrics .gnp-wrap {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+}
+#glass-np.no-lyrics .gnp-lyrics {
+  display: none;
+}
+.gnp-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#glass-np.no-lyrics .gnp-left {
+  align-items: center;
+  text-align: center;
+}
+.gnp-cover {
+  width: min(100%, 52vh);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: var(--lg-shadow), 0 30px 80px rgba(0, 0, 0, .5);
+}
+.gnp-title {
+  margin-top: 22px;
+  font-size: 1.6rem;
+  color: #fff;
+}
+.gnp-artist {
+  margin-top: 4px;
+  font-size: 1rem;
+  font-weight: 300 !important;
+  color: #fff;
+  opacity: .8;
+}
+.gnp-lyrics {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  box-sizing: border-box;
+  padding: 30vh 0;
+  -webkit-mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+  mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+}
+.gnp-lyrics::-webkit-scrollbar {
+  display: none;
+}
+.gnp-lyrics p {
+  margin: 0 0 10vh;
+  font-size: 6vh;
+  line-height: 1.15;
+  color: #fff;
+  opacity: .3;
+  cursor: pointer;
+  transition: opacity .3s ease;
+}
+.gnp-lyrics p.on {
+  opacity: 1;
+}
+.gnp-lyrics.plain p {
+  opacity: .85;
+  cursor: default;
+}
+
+/* Cover Flow view */
+#glass-np.mode-flow {
+  background: #000 !important;
+}
+#glass-np .gnp-bg,
+#glass-np .gnp-wrap {
+  transition: opacity .45s ease, visibility .45s;
+}
+#glass-np.mode-flow .gnp-bg,
+#glass-np.mode-flow .gnp-wrap {
+  opacity: 0;
+  visibility: hidden;
+}
+.gnp-flow {
+  --flow-size: min(44vh, 32vw);
+  position: absolute;
+  inset: 0 0 110px 0;
+  z-index: 2;
+  box-sizing: border-box;
+  padding-top: 6vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .45s ease, visibility .45s;
+}
+#glass-np.mode-flow .gnp-flow {
+  opacity: 1;
+  visibility: visible;
+}
+.gnp-stage {
+  position: relative;
+  width: 100%;
+  height: var(--flow-size);
+}
+.gnp-flow-item {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--flow-size);
+  height: var(--flow-size);
+  margin-left: calc(var(--flow-size) / -2);
+  cursor: pointer;
+  transition: transform .55s cubic-bezier(.2, .7, .2, 1), opacity .55s ease, filter .55s ease;
+  -webkit-box-reflect: below 2px linear-gradient(transparent 52%, rgba(255, 255, 255, .42));
+}
+.gnp-flow-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gnp-flow-meta {
+  position: relative;
+  z-index: 200;
+  margin-top: calc(var(--flow-size) * .5);
+  text-align: center;
+}
+.gnp-flow-title {
+  font-size: 1.35rem;
+  color: #fff;
+}
+.gnp-flow-artist {
+  margin-top: 4px;
+  font-size: 1rem;
+  font-weight: 300 !important;
+  color: #fff;
+  opacity: .75;
+}
+
+/* Note shown when a song only has unsynced lyrics */
+.gnp-lyrics.plain::before {
+  content: "These lyrics aren't time-synced";
+  display: block;
+  margin-bottom: 6vh;
+  font-size: 1rem;
+  font-weight: 300 !important;
+  color: #fff;
+  opacity: .6;
+}
