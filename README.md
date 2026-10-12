@@ -117,3 +117,7 @@ This removes all Spicetify customizations, not just this theme.
 ## License
 
 MIT
+
+## Support
+
+If you're enjoying Glass and want to support it, you can [buy me a coffee on Ko-fi](https://ko-fi.com/e2002). Totally optional, but always appreciated!
