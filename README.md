@@ -15,6 +15,16 @@ A frosted liquid glass theme for Spotify, built with [Spicetify](https://spiceti
 - **Synced lyrics in the sidebar**, showing three lines at a time that follow along with the song
 - **Clean playlist pages:** Spotify's color bands and big image headers are replaced with a consistent glass look and a square cover
 
+## Screenshots
+
+**Cover Flow**
+
+![Cover Flow](screenshots/cover-flow.png)
+
+**Lyrics**
+
+![Lyrics](screenshots/lyrics.png)
+
 ## Lightweight by design
 
 Glass is built to look rich without slowing Spotify down, so it runs well even on older or lower-powered computers.
