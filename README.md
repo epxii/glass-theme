@@ -100,13 +100,48 @@ On Windows, or if you don't have Git installed, just run the Windows install com
 
 ## Removing
 
-To go back to Spotify's normal look, run:
+**Remove just Glass, but keep Spicetify**
+
+macOS / Linux:
+
+```bash
+spicetify config current_theme marketplace
+rm -rf "$(spicetify path userdata)/Themes/glass"
+spicetify apply
+```
+
+Windows (PowerShell):
+
+```powershell
+spicetify config current_theme marketplace
+Remove-Item "$(spicetify path userdata)\Themes\glass" -Recurse -Force
+spicetify apply
+```
+
+If you don't use the Marketplace, replace `marketplace` with the name of another theme you have installed.
+
+**Remove Spicetify completely**
+
+Running `spicetify restore` on its own puts Spotify back to normal, but it leaves Spicetify's settings and themes on your computer, so everything comes back if you reinstall Spicetify later. To remove it all:
+
+macOS / Linux:
 
 ```bash
 spicetify restore
+rm -rf ~/.spicetify ~/.config/spicetify
 ```
 
-This removes all Spicetify customizations, not just this theme.
+If you installed Spicetify with Homebrew, run `brew uninstall spicetify-cli` instead of removing `~/.spicetify`.
+
+Windows (PowerShell):
+
+```powershell
+spicetify restore
+Remove-Item "$env:APPDATA\spicetify" -Recurse -Force
+Remove-Item "$env:LOCALAPPDATA\spicetify" -Recurse -Force
+```
+
+Then restart Spotify, and it'll be completely back to normal.
 
 ## Notes
 
