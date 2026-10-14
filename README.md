@@ -58,7 +58,11 @@ You'll need [Spicetify](https://spicetify.app) installed first.
 
 ```bash
 cd "$(spicetify path userdata)/Themes"
-git clone https://github.com/epxii/glass-theme glass
+curl -L https://github.com/epxii/glass-theme/archive/refs/heads/main.zip -o glass.zip
+unzip -q -o glass.zip
+rm -rf glass
+mv glass-theme-main glass
+rm glass.zip
 spicetify config current_theme glass color_scheme Glass
 spicetify config inject_css 1 replace_colors 1 overwrite_assets 1 inject_theme_js 1
 spicetify apply
@@ -88,15 +92,7 @@ spicetify backup apply
 
 ## Updating
 
-To get the latest version of Glass:
-
-```bash
-cd "$(spicetify path userdata)/Themes/glass"
-git pull
-spicetify apply
-```
-
-On Windows, or if you don't have Git installed, just run the Windows install commands above again. They replace the old version with the latest one.
+To get the latest version of Glass, run the install commands above again. They replace the old version with the latest one, and you can skip the two `spicetify config` lines since those are already set.
 
 ## Removing
 
